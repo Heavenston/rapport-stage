@@ -28,6 +28,8 @@
 \date{}
 
 \begin{document}
+% Prevent page numbering (for re enabling after the table of contents)
+\pagenumbering{gobble}
 
 % Title page
 \begin{titlepage}
@@ -43,13 +45,24 @@
 \vspace{1.5cm}
 {\Large\bfseries Allaw\par}
 \vspace{0.5cm}
-{\large «Developpemet de nouveles fonctionalites pour une solution logicielle de présentation multimédias»\par}
+{\large Travail avec l'equipe backend, et creation d'un serveur de notification\par}
+
+\vfill  % This will push the following content to the bottom of the page
+
+{\large Présenté par :\\
+\textbf{Legendre-Lemaire Malo}\par}  % Replace "Votre Nom" with your actual name
+
+\vspace{0.5cm}
+{\large Promo 2026\par}  % You can adjust the year if needed
 \end{center}
 \end{titlepage}
 
 % Table of contents
 \tableofcontents
 \newpage
+
+% Start the page numbering
+\pagenumbering{arabic}
 
 % Chapters
 \chapter{Introduction}
