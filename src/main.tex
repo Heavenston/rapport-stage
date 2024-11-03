@@ -11,6 +11,9 @@
 \usepackage{amsmath}
 
 \usepackage{subfiles}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[skip=10pt,indent=10pt]{parskip}
 
 % Page geometry
 \geometry{
@@ -27,7 +30,11 @@
        \large{Développement de nouvelles fonctionnalités pour une solution logicielle de présentation multimédias}}
 \date{}
 
+\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{}{0pt}{\thechapter \quad  \Huge}
+\titlespacing*{\chapter}{0pt}{-70pt}{0pt}
+
 \begin{document}
+
 % Prevent page numbering (for re enabling after the table of contents)
 \pagenumbering{gobble}
 
