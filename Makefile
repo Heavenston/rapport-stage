@@ -12,7 +12,6 @@ open: ${OUT_FILE}
 	bash -c 'atril ${OUT_FILE} &> /dev/null &'
 
 clean:
-	${RM} out/*.aux out/*.bit out/*.blg out/*.bbl out/*.lof out/*.log out/*.lot out/*.glo out/*.glx out/*.gxg out/*.gxs out/*.idx out/*.ilg out/*.ind out/*.out out/*.url out/*.svn out/*.toc out/*.pdf
-	rmdir out
+	rm -rf out
 
 .PHONY: clean open
