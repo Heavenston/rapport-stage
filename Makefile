@@ -6,7 +6,7 @@ DEFAULT: all
 
 ${OUT_FILE}: ${LATEX_FILES}
 	mkdir -p out
-	pdflatex -output-directory=out -interaction=nonstopmode src/main.tex
+	[ -f ${OUT_FILE} ] || pdflatex -output-directory=out -interaction=nonstopmode src/main.tex
 	pdflatex -output-directory=out -interaction=nonstopmode src/main.tex
 
 open: ${OUT_FILE}
