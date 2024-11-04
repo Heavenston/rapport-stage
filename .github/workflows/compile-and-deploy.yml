@@ -1,0 +1,22 @@
+name: Compile and deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  buildndeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: apt update && apt upgrade
+      - run: apt install texlive texlive-base texlive-full texlive-science build-essentials
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: make
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'out'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

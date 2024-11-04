@@ -1,5 +1,5 @@
 OUT_FILE = out/main.pdf
-LATEX_FILES := $(shell find -name '*.tex' src)
+LATEX_FILES := $(shell find src -name '*.tex')
 
 all: ${OUT_FILE}
 DEFAULT: all
