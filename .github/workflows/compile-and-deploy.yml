@@ -10,10 +10,9 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - uses: awalsh128/cache-apt-pkgs-action@latest
+      - uses: ConorMacBride/install-package@v1
         with:
-          packages: texlive texlive-base texlive-full texlive-science build-essential
-          version: 1.0
+          apt: texlive texlive-base texlive-full texlive-science build-essential
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: make
