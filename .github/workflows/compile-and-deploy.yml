@@ -6,6 +6,9 @@ on:
 jobs:
   buildndeploy:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - run: sudo apt update && sudo apt upgrade
       - run: sudo apt install texlive texlive-base texlive-full texlive-science build-essential
