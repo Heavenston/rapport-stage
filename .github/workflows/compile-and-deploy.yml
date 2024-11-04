@@ -10,12 +10,14 @@ jobs:
       pages: write
       id-token: write
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
       - name: Cache and Install apt (.deb) Packages
         uses: eth-pkg/apt-deb-cache@v0.2.6
         with:
           packages: 'texlive texlive-base texlive-full texlive-science build-essential'
-      - name: Check out repository code
-        uses: actions/checkout@v4
+
       - run: make
 
       - name: Upload Artifact
