@@ -10,8 +10,10 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - run: sudo apt update && sudo apt upgrade
-      - run: sudo apt install texlive texlive-base texlive-full texlive-science build-essential
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: texlive texlive-base texlive-full texlive-science build-essential
+          version: 1.0
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: make
