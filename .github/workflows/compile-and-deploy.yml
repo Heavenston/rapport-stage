@@ -10,9 +10,10 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - uses: ConorMacBride/install-package@v1
+      - name: Cache and Install apt (.deb) Packages
+        uses: eth-pkg/apt-deb-cache@v0.2.6
         with:
-          apt: texlive texlive-base texlive-full texlive-science build-essential
+          packages: 'texlive texlive-base texlive-full texlive-science build-essential'
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: make
