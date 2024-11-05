@@ -6,17 +6,17 @@ on:
 jobs:
   buildndeploy:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/heavenston/rapportbuilder:latest
+      credentials:
+        username: heavenston
+        password: ${{ secrets.DOCKER_CONTAINER_REGISTRY_TOKEN }}
     permissions:
       pages: write
       id-token: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-
-      - name: Cache and Install apt (.deb) Packages
-        uses: eth-pkg/apt-deb-cache@v0.2.6
-        with:
-          packages: 'texlive texlive-base texlive-full texlive-science build-essential'
 
       - run: make
 
