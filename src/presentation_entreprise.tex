@@ -17,14 +17,78 @@ ambitionne d'intégrer ces deux aspects. Cette intégration permet non seulement
 de faciliter la gestion des interactions, mais aussi d'améliorer l'expérience
 utilisateur en offrant une interface harmonieuse et cohérente.
 
-En plus de cela, Allaw prend en compte les spécificités des différentes
-professions du droit, offrant des fonctionnalités adaptées aux besoins
-particuliers des avocats, notaires, et commissaires de justice. Cette
-personnalisation est un atout majeur qui renforce l'attrait de la plateforme
-pour les professionnels cherchant à rationaliser leurs processus tout en gardant
-une qualité de service élevée.
+% En plus de cela, Allaw prend en compte les spécificités des différentes
+% professions du droit, offrant des fonctionnalités adaptées aux besoins
+% particuliers des avocats, notaires, et commissaires de justice. Cette
+% personnalisation est un atout majeur qui renforce l'attrait de la plateforme
+% pour les professionnels cherchant à rationaliser leurs processus tout en gardant
+% une qualité de service élevée.
 
 \section{L'entreprise}
+
+\subsection{L'équipe}
+
+% \begin{forest}
+%   for tree={
+%     draw,
+%     align=center
+%   },
+%   forked edges,
+%   [Ludovic Stang\\CEO
+%     [Germain Stang\\CTO
+%       [Nicolas Cathala\\Developeur Frontend
+%       ]
+%       [Vincent Desbrosses\\Developeur Frontend
+%       ]
+%       [Malo Legendre\\Stagiaire Backend
+%       ]
+%       [Titouan Goubet\\Alternant Frontend
+%       ]
+%       [Nawel Alami\\Alternante Communication
+%       ]
+%     ]
+%   ]
+%   \node [draw, fit=(current bounding box.south east) (current bounding box.north west)] {};
+% \end{forest}
+
+\tikzset{
+  basic/.style  = {draw, drop shadow, font=\sffamily, rectangle, text width=, minimum width=4cm, align=center}, % align=center
+  root/.style   = {basic, thin, fill=gray!45},
+  level 2/.style = {basic, thin, fill=gray!30, text width=8em},
+  level 3/.style = {basic, thin, fill=gray!20, text width=, minimum width=5cm, node distance=40pt}
+}
+
+\begin{tikzpicture}[
+  level 1/.style={sibling distance=70mm},
+  edge from parent/.style={->,draw},
+  >=latex]
+
+% Root
+\node[root] {Ludovic Stang \\ \footnotesize CEO}
+  % Level 1
+  child {node[level 2] (c1) {Germain Stang \\ \footnotesize CTO}}
+  child {node[level 2] (c2) {Cédric Béchu \\ \footnotesize Head Of Sales}};
+
+% Level 2
+\begin{scope}[every node/.style={level 3}]
+\node [below of = c1, xshift=25pt] (c11) {Nicolas Cathala \\ \footnotesize Developeur Backend};
+\node [below of = c11] (c12) {Vincent Desbrosses \\ \footnotesize Developeur Frontend};
+\node [below of = c12] (c13) {Malo Legendre \\ \footnotesize Stagiaire Backend};
+\node [below of = c13] (c14) {Titouan Goubet \\ \footnotesize Alternant Frontend};
+\node [below of = c14] (c15) {Nawel Alami \\ \footnotesize Alternante Communication};
+\node [below of = c2, xshift=25pt] (c21) {Yanis \\ \footnotesize Business Developer};
+\node [below of = c21] (c22) {Sarah \\ \footnotesize Service Support};
+\end{scope}
+
+% Lines
+\foreach \value in {1,2,3,4,5}
+  \draw[->] (c1.195) |- (c1\value.west);
+\foreach \value in {1,2}
+  \draw[->] (c2.195) |- (c2\value.west);
+\end{tikzpicture}
+
+\subsection{Presentation}
+
 Allaw est une startup nantaise fondée en 2023 par un duo père-fils, Ludovic
 Stang et son fils Germain. L'entreprise compte actuellement une dizaine de
 collaborateurs et connaît une phase de croissance active. Sa mission principale
@@ -67,9 +131,7 @@ stabilite requise au bon fonctionnement. Cela implique également de collaborer
 étroitement avec les équipes de développement frontend pour assurer une
 intégration fluide des nouvelles fonctionnalités.
 
-\begin{comment}
-SUPRIMER ?
-\end{comment}
-Ma participation à ce projet me permet de développer de nouvelles compétences
-techniques clés tout en travaillant ma créativité en trouvant de nouvelles
-idées.
+% \todo[inline]{SUPRIMER?}
+% Ma participation à ce projet me permet de développer de nouvelles compétences
+% techniques clés tout en travaillant ma créativité en trouvant de nouvelles
+% idées.
