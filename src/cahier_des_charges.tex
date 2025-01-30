@@ -1,0 +1,81 @@
+
+\subsection{But général}
+
+Au sein d'Allaw, mon but principal était d'aider au développement du backend
+et donc d'aider Nicolas, l'unique développeur backend, dans ses tâches. Mon
+sujet principal pour le stage était un serveur de notifications, recevant les
+événements du backend et les redistribuant vers les clients connectés.
+
+Mais j'ai aidé au développement de beaucoup d'autres fonctionnalités :
+
+\begin{enumerate}
+    \item Relier tous les professionnels inscrits et non-inscrits de manière aléatoire sur
+          leurs pages pour aider le référencement Google. (le "maillage")
+	\item La connexion des usagers passant par Google ou LinkedIn.
+    \item La recherche des professionnels sur le site, paginée et aléatoire.
+	\item Les notifications grâce au serveur de notifications.
+	\item Régler la gestion des décalages horaires sur Allaw permettant d'ouvrir l'application aux outre-mer.
+	\item Une barre de recherche permettant de rechercher parmi tous les objets de manière naturelle.
+\end{enumerate}
+
+Et ceci n'est que les travaux principaux. Je vais concentrer ce rapport de stage
+sur le serveur de notifications, comme c'était mon sujet de stage, ainsi que les
+décalages horaires et enfin la barre de recherche.
+
+\subsection{Explication détaillée des résultats à obtenir}
+
+\subsubsection{Le "maillage"}
+
+À mon arrivée, l'équipe était en pleine refonte du site, pour améliorer leur
+référencement Google. Dans ces travaux, se trouvait le besoin d'afficher en
+dessous de tous les professionnels, une sélection de 10 autres professionnels
+se trouvant dans la même ville. Et ceci de manière statique, pour que les
+professionnels suggérés ne changent pas afin d'aider Google à référencer les
+pages.
+
+Ce "maillage" devait être suffisamment interconnecté pour permettre à tous les
+professionnels d'être trouvés par Google en passant par un autre professionnel.
+
+\subsubsection{Le serveur de notification}
+
+Le serveur de notifications devait recevoir des événements du backend, comme
+un nouveau rendez-vous, un paiement effectué, etc. Puis d'une manière ou d'une
+autre les renvoyer à tous les clients en temps réel sur leur frontend.
+
+À part ces conditions, j'étais complètement libre sur l'implémentation et les
+choix de technologies.
+
+Allaw ne disposant pas de DevOps à temps plein, il était difficile pour Nicolas,
+le Backend, de trouver le temps de se former et de créer les services difficiles
+à mettre en place tels que Kafka pour la communication inter-services. Pour
+cette raison, le serveur de notifications n'aurait qu'une seule instance
+pour toute l'application, ce qui augmente les charges sur un seul serveur,
+contrairement au Backend qui possède trois instances. Il fallait donc un service
+performant et robuste.
+
+\subsubsection{Les decalages horaires}
+
+Durant la phase de MVP d'Allaw, un support robuste des différents décalages
+horaires sur la plateforme n'avait pas été réfléchi. En effet, les différentes
+librairies de l'écosystème JavaScript gèrent de manière différente les
+décalages horaires, et en essayant de tout accommoder, les dates étaient souvent
+sauvegardées et transformées dans des formats non-standards.
+
+Mon but était donc d'uniformiser cette gestion, permettant à quelqu'un
+d'outre-mer de prendre rendez-vous avec un avocat se trouvant en métropole et
+que les bonnes dates s'affichent.
+
+\subsubsection{La barre de recherche global}
+
+La base de données utilisée par Allaw est MongoDB. Or, les capacités de
+recherche textuelle de cette base de données sont très simplistes et pas très
+performantes. Il fallait donc mettre en place Elasticsearch qui offre des
+capacités de recherche textuelle bien supérieures.
+
+En plus de ce nouveau service, la recherche devait permettre de trouver des
+rendez-vous grâce à une recherche naturelle. Par exemple, entrer "rendez-vous
+avec Malo Legendre le 5 janvier 2025" devrait retourner tous les rendez-vous
+avec "Malo Legendre" qui ont eu lieu le 5 janvier 2025.
+
+Une autre fonctionnalité était de proposer de créer un rendez-vous, une note ou
+autre objet si ceux-ci n'existent pas déjà.

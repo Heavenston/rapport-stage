@@ -1,0 +1,80 @@
+\subsection{Axes d'étude et de recherche choisis}
+
+Mon stage portait sur le développement d'un serveur de notifications performant
+et robuste. Plusieurs axes d'étude ont été définis pour atteindre cet objectif.
+
+Le premier enjeu était le choix des technologies. J'étais libre de choisir,
+mais je devais considérer la {\bf dette technique} potentielle. Utiliser des
+technologies peu maîtrisées par l'équipe aurait compliqué la maintenance. Il
+fallait trouver un équilibre entre {\bf innovation et familiarité}.
+
+De plus, la {\bf communication} entre le Backend, le Frontend et mon service
+devait être simple. L'utilisation de technologies similaires aux services
+existants permettrait de réutiliser les mêmes interfaces TypeScript et ainsi
+réduire les risques d'incompatibilité.
+
+Un autre axe important était de déterminer le {\bf protocole de communication}
+entre les clients et le serveur de notifications. {\bf WebSockets} et
+{\bf Server-Sent Events (SSE)} étaient envisagés. Le choix devait se faire
+selon la facilité d'implémentation, la performance et la compatibilité avec
+l'architecture existante.
+
+Enfin, le dernier axe de recherche était de concevoir une {\bf architecture
+générique} pour le serveur de notifications. Le serveur devait être capable
+de transmettre n'importe quel type de notification {\bf sans en interpréter le
+contenu}. Cela posait la question de la structuration des données et de leur
+gestion efficace. Comment garantir la flexibilité du système sans connaître la
+structure interne des notifications ? Permettre au serveur de notifications de
+lire les notifications poserait le problème de devoir lui permettre aussi de
+lire la base de données principale, et donc partager la structure de celle-ci,
+augmentant la difficulté de changement.
+
+\subsection{Déroulement concret des études, expérimentations, mises au point...}
+
+Les technologies que j'ai finalement utilisées sont :
+
+\begin{itemize}
+	\item {\bf Fastify}, à l'opposé de {\bf Express} utilisé pour le Backend. Ces technologies
+gèrent les requêtes HTTP. La différence entre mon service et le Backend ne pose
+pas de problèmes majeurs.
+{\bf Fastify} est plus rapide qu'{\bf Express}, ce qui est crucial pour un serveur de
+notification. De plus, il offre une meilleure validation des données, améliorant
+la robustesse du système.
+	\item {\bf MongoDB} comme base de données, la même que le Backend. Cela simplifie le
+déploiement et la gestion des données.
+\end{itemize}
+
+Pour la connexion des clients, j'ai choisi les {\bf Server-Sent Events (SSE)}
+plutôt que les {\bf WebSockets}. Ce choix a été motivé par :
+
+\begin{itemize}
+    \item {\bf Simplicité}: Les SSE sont nativement supportés par les navigateurs et simples
+à implémenter côté serveur.
+    \item {\bf Adaptation au besoin unidirectionnel}: Les notifications vont du serveur vers
+les clients, les SSE sont donc parfaitement adaptés.
+    \item {\bf Reconnexion automatique}: En cas de perte de connexion, les navigateurs se
+reconnectent automatiquement au flux SSE.
+\end{itemize}
+
+{\bf Gestion des données et transparence des notifications :}
+
+{\bf MongoDB} stocke les notifications. Chaque notification est ajoutée à un
+document dans une collection dédiée.
+
+Le point crucial est la {\bf transparence totale des notifications pour le
+serveur}. Le serveur les stocke et les transmet sans les interpréter. Seuls le
+Backend et le Frontend gèrent le contenu des notifications.
+
+Cette approche offre plusieurs avantages :
+
+\begin{itemize}
+    \item {\bf Découplage fort}: Le serveur est indépendant du type de notification.
+    \item {\bf Maintenance simplifiée}: L'ajout de nouveaux types de notifications ne
+nécessite pas de modification du serveur.
+    \item {\bf Performance accrue}: Le serveur n'analyse pas le contenu des notifications,
+il est donc plus rapide.
+\end{itemize}
+
+{\bf En résumé,} l'architecture repose sur {\bf Fastify}, {\bf MongoDB} et les SSE. La
+conception du serveur, basée sur la transparence des données, permet d'obtenir
+un système performant, flexible et facile à maintenir.
