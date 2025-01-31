@@ -11,29 +11,29 @@ de manière transparente, sans que le serveur n'ait à interpréter le contenu
 des notifications.
 
 \begin{itemize}
-\item {\bf Technologies utilisées:}
+\item {\bf Technologies utilisées: }
 	\begin{itemize}
-	    \item {\bf Fastify:} Gestion des requêtes HTTP. Sa rapidité et sa robustesse,
+	    \item {\bf Fastify: } Gestion des requêtes HTTP. Sa rapidité et sa robustesse,
 en comparaison avec Express, ont contribué à la performance du serveur. La
 validation des données intégrée a renforcé la fiabilité du système.
-	    \item {\bf MongoDB:} Base de données NoSQL. Son utilisation, en cohérence avec le
+	    \item {\bf MongoDB: } Base de données NoSQL. Son utilisation, en cohérence avec le
 reste de l'infrastructure, a simplifié le déploiement et la gestion des données.
-	    \item {\bf Server-Sent Events (SSE):} Protocole de communication unidirectionnelle. Ce
+	    \item {\bf Server-Sent Events (SSE): } Protocole de communication unidirectionnelle. Ce
 choix s'est avéré judicieux pour la diffusion efficace des notifications et la
 reconnexion automatique en cas de perte de connexion.
 	\end{itemize}
-\item {\bf Architecture:}
+\item {\bf Architecture: }
 	\begin{itemize}
-    \item {\bf Système de filtres (expressions Alang):} Intégré dans des tokens
+    \item {\bf Système de filtres (expressions Alang): } Intégré dans des tokens
 générés par le Backend, il a permis une distribution ciblée des notifications
 sans exposer la {\bf logique métier} au serveur.
 		\begin{itemize}
-        \item {\bf Flexibilité et performance :} Gestion d'une grande variété de
+        \item {\bf Flexibilité et performance : } Gestion d'une grande variété de
 scénarios de notification.
-        \item {\bf Simplicité pour le serveur :} Pas d'interprétation du contenu
+        \item {\bf Simplicité pour le serveur : } Pas d'interprétation du contenu
 des notifications.
 		\end{itemize}
-    \item {\bf Marquage des notifications comme lues:} Utilisation de tokens
+    \item {\bf Marquage des notifications comme lues: } Utilisation de tokens
 pour une gestion efficace de l'état des notifications côté client, tout en
 préservant l'indépendance du serveur.
 	\end{itemize}
@@ -41,16 +41,16 @@ préservant l'indépendance du serveur.
 
 \subsubsection{Remise en question : {\it From scratch} vs. Solutions Cloud}
 
-Le développement {\it from scratch} a été formateur mais a représenté un investissement conséquent. La question se pose : {\bt une solution cloud existante n'aurait-elle pas été plus judicieuse ?}
+Le développement {\it from scratch} a été formateur mais a représenté un investissement conséquent. La question se pose : {\bf une solution cloud existante n'aurait-elle pas été plus judicieuse ?}
 
 \subsubsection{Analyse des solutions Cloud alternatives}
 
 De nombreux services managés de gestion de notifications existent :
 
 \begin{itemize}
-\item {\bt Exemples :} Firebase Cloud Messaging (FCM), Amazon SNS, Azure
+\item {\bf Exemples : } Firebase Cloud Messaging (FCM), Amazon SNS, Azure
 Notification Hubs.
-\item {\bt Fonctionnalités :} Infrastructures scalables, gestion de gros
+\item {\bf Fonctionnalités : } Infrastructures scalables, gestion de gros
 volumes, différents protocoles (WebSockets, SSE...), fonctionnalités avancées
 (segments d'utilisateurs, personnalisation, analyses), haute disponibilité et
 sécurité.
@@ -59,32 +59,32 @@ sécurité.
 \subsubsection{Avantages potentiels d'une solution Cloud}
 
 \begin{itemize}
-\item {\bt Concentration sur le métier :} Se focalise sur les aspects fonctionnels.
-\item {\bt Temps de développement réduit :} Mise sur le marché plus rapide.
-\item {\bt Coûts potentiellement réduits :} Facturation à l'usage, avantageux
+\item {\bf Concentration sur le métier : } Se focalise sur les aspects fonctionnels.
+\item {\bf Temps de développement réduit : } Mise sur le marché plus rapide.
+\item {\bf Coûts potentiellement réduits : } Facturation à l'usage, avantageux
 au démarrage.
-\item {\bt Gestion de l'infrastructure déléguée :} Sécurité, scalabilité et
+\item {\bf Gestion de l'infrastructure déléguée : } Sécurité, scalabilité et
 haute disponibilité gérées par le fournisseur.
 \end{itemize}
 
 \subsubsection{Avantages du développement {\it from scratch}}
 
 \begin{itemize}
-\item {\bt Personnalisation totale :} Adaptation précise aux besoins.
-\item {\bt Maîtrise complète :} Contrôle de l'architecture et du code.
-\item {\bt Flexibilité accrue :} Ajout de fonctionnalités et optimisation facilités.
-\item {\bt Expertise interne :} Développement de compétences précieuses et différenciantes.
-\item {\bt Indépendance technologique :} Pas de verrouillage fournisseur.
+\item {\bf Personnalisation totale : } Adaptation précise aux besoins.
+\item {\bf Maîtrise complète : } Contrôle de l'architecture et du code.
+\item {\bf Flexibilité accrue : } Ajout de fonctionnalités et optimisation facilités.
+\item {\bf Expertise interne : } Développement de compétences précieuses et différenciantes.
+\item {\bf Indépendance technologique : } Pas de verrouillage fournisseur.
 \end{itemize}
 
 \subsubsection{Inconvénients du développement {\it from scratch} et dette technique}
 
 \begin{itemize}
-\item {\bt Maintenance et évolution :} Dépendent de l'expertise de l'équipe,
+\item {\bf Maintenance et évolution : } Dépendent de l'expertise de l'équipe,
 risque en cas de départ.
-\item {\bt Responsabilité accrue :} Charge de travail pour la sécurité, la
+\item {\bf Responsabilité accrue : } Charge de travail pour la sécurité, la
 scalabilité et la haute disponibilité.
-\item {\bt Coût de développement élevé :} Investissement en temps et en
+\item {\bf Coût de développement élevé : } Investissement en temps et en
 ressources humaines conséquent. Le calcul du coût par rapport a une solution
 cloud n'est pas certain d'être avantageux.
 \end{itemize}
@@ -95,8 +95,8 @@ Le choix dépend des priorités du projet, des ressources et de la stratégie à
 long terme.
 
 \begin{itemize}
-\item {\bt Solution Cloud :} Gain de temps, réduction de la dette technique,
+\item {\bf Solution Cloud : } Gain de temps, réduction de la dette technique,
 concentration sur le métier.
-\item {\bt  {\it From scratch} :} Maîtrise totale, personnalisation,
+\item {\bf  {\it From scratch} : } Maîtrise totale, personnalisation,
 développement de compétences.
 \end{itemize}
