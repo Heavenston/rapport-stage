@@ -1,7 +1,10 @@
 \subsection{Axes d'étude et de recherche choisis}
 
 Mon stage portait sur le développement d'un serveur de notifications performant
-et robuste. Plusieurs axes d'étude ont été définis pour atteindre cet objectif.
+et robuste. L'objectif principal était de fournir aux utilisateurs des
+informations {\bf en temps réel}, ce qui a imposé des contraintes spécifiques
+sur le choix des technologies et l'architecture du système. Plusieurs axes
+d'étude ont été définis pour atteindre cet objectif.
 
 Le premier enjeu était le choix des technologies. J'étais libre de choisir,
 mais je devais considérer la {\bf dette technique} potentielle. Utiliser des
@@ -14,10 +17,37 @@ existants permettrait de réutiliser les mêmes interfaces TypeScript et ainsi
 réduire les risques d'incompatibilité.
 
 Un autre axe important était de déterminer le {\bf protocole de communication}
-entre les clients et le serveur de notifications. {\bf WebSockets} et
-{\bf Server-Sent Events (SSE)} étaient envisagés. Le choix devait se faire
-selon la facilité d'implémentation, la performance et la compatibilité avec
-l'architecture existante.
+entre les clients et le serveur de notifications. La nécessité d'une
+communication en {\bf temps réel} a immédiatement réduit le champ des possibles.
+Les requêtes HTTP traditionnelles, basées sur un modèle requête-réponse, ne
+sont pas adaptées à ce besoin car elles obligeraient les clients à interroger
+le serveur périodiquement (polling) pour vérifier la présence de nouvelles
+notifications. Cette approche est inefficace en termes de consommation de
+ressources (bande passante, CPU) et introduit une latence importante entre
+l'émission d'une notification et sa réception par le client.
+
+Pour garantir une communication en temps réel, il était nécessaire de se tourner
+vers des technologies permettant une communication {\bf bidirectionnelle} ou
+{\bf unidirectionnelle persistante} entre le serveur de notification et les
+clients. Deux technologies principales se sont dégagées : {\bf WebSockets} et
+{\bf Server-Sent Events (SSE)}.
+
+\begin{itemize}
+	\item {\bf WebSockets} établit une connexion bidirectionnelle et persistante
+entre le client et le serveur.  Cela permet au serveur de "pousser" des
+notifications vers le client dès qu'elles sont disponibles, sans que le client
+n'ait à les demander.
+	\item {\bf SSE}, quant à lui, permet une communication unidirectionnelle du
+serveur vers le client via une connexion HTTP persistante. Le serveur peut ainsi
+envoyer des données au client en temps réel.
+\end{itemize}
+
+Le choix entre ces deux technologies devait se faire selon la facilité
+d'implémentation, la performance et la compatibilité avec l'architecture
+existante, tout en gardant à l'esprit le besoin fondamental de {\bf temps réel}.
+C'est-à-dire que quand un usager prend rendez-vous sur le site, il faut
+qu'{\bf instantanément} le professionnel reçoive une notification pour le prévenir de
+la prise de rendez-vous.
 
 Enfin, le dernier axe de recherche était de concevoir une {\bf architecture
 générique} pour le serveur de notifications. Le serveur devait être capable
@@ -56,25 +86,71 @@ les clients, les SSE sont donc parfaitement adaptés.
 reconnectent automatiquement au flux SSE.
 \end{itemize}
 
-{\bf Gestion des données et transparence des notifications :}
+\subsubsection{Transparence des notifications}
 
-{\bf MongoDB} stocke les notifications. Chaque notification est ajoutée à un
-document dans une collection dédiée.
+Le serveur de notification a été pensé depuis le début pour être complètement
+indépendant des données sauvegardées à l'intérieur des notifications.
 
-Le point crucial est la {\bf transparence totale des notifications pour le
-serveur}. Le serveur les stocke et les transmet sans les interpréter. Seuls le
-Backend et le Frontend gèrent le contenu des notifications.
-
-Cette approche offre plusieurs avantages :
+Cela a plusieurs avantages:
 
 \begin{itemize}
-    \item {\bf Découplage fort}: Le serveur est indépendant du type de notification.
-    \item {\bf Maintenance simplifiée}: L'ajout de nouveaux types de notifications ne
-nécessite pas de modification du serveur.
-    \item {\bf Performance accrue}: Le serveur n'analyse pas le contenu des notifications,
-il est donc plus rapide.
+	\item {\bf Découplage fort :} Évolutions indépendantes des services, pas de dépendance au format des notifications.
+	\item {\bf Sécurité renforcée :} Accès limité aux données sensibles, réduit les risques.
+	\item {\bf Flexibilité et évolutivité :} Gère tout type de notification, ajout facile de nouveaux types.
+	\item {\bf Maintenance simplifiée :} Logique de traitement déportée, focus sur la transmission.
+	\item {\bf Réutilisabilité :} Composant générique, utilisable dans d'autres projets.
+	\item {\bf Indépendance de la base de données principale:} Pas d'accès, pas de dépendance à sa structure.
+	\item {\bf Simplicité :} Code plus clair et facile à comprendre, focus sur l'essentiel.
 \end{itemize}
 
-{\bf En résumé,} l'architecture repose sur {\bf Fastify}, {\bf MongoDB} et les SSE. La
-conception du serveur, basée sur la transparence des données, permet d'obtenir
-un système performant, flexible et facile à maintenir.
+Pour cela la plus grande difficulte vient de savoir quelle notification transmettre
+a quel professionel. Comme le serveur de notification n'a pas access aux donnees de la notifications
+il ne peut pas savoir a qui cette notfication est destinee.
+
+Pour resoudre ce probleme, j'ai choisi un systeme peu conventionel:
+
+Quand un professionnel se connecte à Allaw, le Front va faire une requête au
+Backend, et celui-ci va lui donner un {\bf Token}. Ce token sera spécialement créé
+par le Backend pour contenir un 'filtre', ce filtre décrit quelles notifications
+il est autorisé à recevoir. C'est avec ce token qu'il pourra se connecter
+directement au serveur de notifications, qui pourra, grâce à ce filtre dont il
+ne connaît pas la logique pour le créer, savoir quelles notifications seront
+renvoyées.
+
+Ce token est constitué d'une {\bf expression} en JSON similaire aux {\bf query}
+MongoDB, ce qui permet une grande flexibilité. Ces expressions que j'ai
+surnommées des expressions {\bf Alang} sont un véritable langage de programmation
+permettant d'exprimer de nombreuses fonctionnalités complètement dans ce token.
+
+\subsubsection{Marquage comme lu des notifications}
+
+Pour pouvoir savoir quelles notifications ont été vues par le professionnel,
+un système similaire de token a été mis en place, permettant au front de
+marquer comme vue n'importe quelle notification directement sur le serveur de
+notifications.
+
+Ces tokens contiennent une liste d'actions qui peuvent être prises, que le
+front peut choisir, suivie d'une liste de notifications sur lesquelles effectuer
+l'action.
+
+\subsubsection{Gestion des données}
+
+Le Backend fait une requete autentifier au serveur de notification pour publier
+une nouvelle notifications, quand par exemple un nouveau rendez-vous a ete pris.
+
+Le serveur de notifications fait passer par deux systèmes toutes les
+notifications reçues de cette manière :
+
+\begin{itemize}
+	\item Un dont le but est de transférer les notifications vers toutes les
+connexions actives.
+	\item Un autre qui sauvegarde la notification dans la base de données pour pouvoir la
+renvoyer aux pros qui n'étaient pas en ligne lors de la prise de rendez-vous.
+\end{itemize}
+
+Les notifications sont vérifiées envers tous les filtres de tous les
+professionnels connectés actuellement, et sont envoyées vers ceux qui
+correspondent. Puis elle est enregistrée dans la base de données, avec des
+données supplémentaires aux données de la notification, comme la date d'envoi.
+Cette enrengistrement permet de renvoyer la notifications a la connection d'un
+professionel si jamais il ne l'avais pas vu avant.
