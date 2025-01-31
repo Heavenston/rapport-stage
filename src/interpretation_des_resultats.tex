@@ -1,5 +1,7 @@
 
-Le développement du serveur de notifications a été une expérience riche en enseignements, me confrontant à la complexité de la conception d'un système temps réel performant et robuste.
+Le développement du serveur de notifications a été une expérience riche en
+enseignements, me confrontant à la complexité de la conception d'un système
+temps réel performant et robuste.
 
 \subsection{Bilan des choix technologiques et architecturaux}
 
@@ -11,121 +13,90 @@ des notifications.
 \begin{itemize}
 \item {\bf Technologies utilisées:}
 	\begin{itemize}
-	    \item {\bf Fastify:} Gestion des requêtes HTTP. Sa rapidité et sa robustesse, en comparaison avec Express, ont contribué à la performance du serveur. La validation des données intégrée a renforcé la fiabilité du système.
-	    \item {\bf MongoDB:} Base de données NoSQL. Son utilisation, en cohérence avec le reste de l'infrastructure, a simplifié le déploiement et la gestion des données.
-	    \item {\bf Server-Sent Events (SSE):} Protocole de communication unidirectionnelle. Ce choix s'est avéré judicieux pour la diffusion efficace des notifications et la reconnexion automatique en cas de perte de connexion.
+	    \item {\bf Fastify:} Gestion des requêtes HTTP. Sa rapidité et sa robustesse,
+en comparaison avec Express, ont contribué à la performance du serveur. La
+validation des données intégrée a renforcé la fiabilité du système.
+	    \item {\bf MongoDB:} Base de données NoSQL. Son utilisation, en cohérence avec le
+reste de l'infrastructure, a simplifié le déploiement et la gestion des données.
+	    \item {\bf Server-Sent Events (SSE):} Protocole de communication unidirectionnelle. Ce
+choix s'est avéré judicieux pour la diffusion efficace des notifications et la
+reconnexion automatique en cas de perte de connexion.
 	\end{itemize}
 \item {\bf Architecture:}
 	\begin{itemize}
-    \item {\bf Système de filtres (expressions Alang):} Intégré dans des tokens générés par le Backend, il a permis une distribution ciblée des notifications sans exposer la logique métier au serveur.
+    \item {\bf Système de filtres (expressions Alang):} Intégré dans des tokens
+générés par le Backend, il a permis une distribution ciblée des notifications
+sans exposer la {\bf logique métier} au serveur.
 		\begin{itemize}
-        \item {\bf Flexibilité et performance :} Gestion d'une grande variété de scénarios de notification.
-        \item {\bf Simplicité pour le serveur :} Pas d'interprétation du contenu des notifications.
+        \item {\bf Flexibilité et performance :} Gestion d'une grande variété de
+scénarios de notification.
+        \item {\bf Simplicité pour le serveur :} Pas d'interprétation du contenu
+des notifications.
 		\end{itemize}
-    \item {\bf Marquage des notifications comme lues:} Utilisation de tokens pour une gestion efficace de l'état des notifications côté client, tout en préservant l'indépendance du serveur.
+    \item {\bf Marquage des notifications comme lues:} Utilisation de tokens
+pour une gestion efficace de l'état des notifications côté client, tout en
+préservant l'indépendance du serveur.
 	\end{itemize}
 \end{itemize}
 
-\subsection{Remise en question : Solution {\it from scratch} vs. Solutions Cloud}
+\subsubsection{Remise en question : {\it From scratch} vs. Solutions Cloud}
 
-Avec le recul, il est légitime de se questionner sur la pertinence du
-développement d'un serveur de notifications {\it from scratch}.  Si ce projet a été
-extrêmement formateur et a permis une maîtrise fine de l'ensemble du système,
-il est indéniable qu'il a représenté un investissement conséquent en temps et
-en ressources.
+Le développement {\it from scratch} a été formateur mais a représenté un investissement conséquent. La question se pose : {\bt une solution cloud existante n'aurait-elle pas été plus judicieuse ?}
 
-{\bf La question cruciale : n'aurait-il pas été plus judicieux d'opter pour une solution existante, notamment parmi les nombreuses offres cloud disponibles sur le marché ?}
+\subsubsection{Analyse des solutions Cloud alternatives}
 
-\subsection{Analyse des solutions Cloud alternatives}
-
-L'écosystème du cloud propose aujourd'hui une multitude de services managés dédiés à la gestion des notifications.
+De nombreux services managés de gestion de notifications existent :
 
 \begin{itemize}
-\item {\bf Exemples de solutions:}
-	\begin{itemize}
-    \item Firebase Cloud Messaging (FCM) de Google
-    \item Amazon SNS
-    \item Azure Notification Hubs
-	\end{itemize}
-
-\item {\bf Fonctionnalités offertes:}
-	\begin{itemize}
-    \item Infrastructures robustes et scalables
-    \item Gestion d'un grand volume de notifications
-    \item Support de différents protocoles (WebSockets, SSE, etc.)
-    \item Fonctionnalités avancées :
-		\begin{itemize}
-        \item Gestion des segments d'utilisateurs
-        \item Personnalisation des messages
-        \item Analyse des performances
-        \item Intégration avec d'autres services de la plateforme
-		\end{itemize}
-    \item Infrastructures hautement disponibles et sécurisées
-	\end{itemize}
+\item {\bt Exemples :} Firebase Cloud Messaging (FCM), Amazon SNS, Azure
+Notification Hubs.
+\item {\bt Fonctionnalités :} Infrastructures scalables, gestion de gros
+volumes, différents protocoles (WebSockets, SSE...), fonctionnalités avancées
+(segments d'utilisateurs, personnalisation, analyses), haute disponibilité et
+sécurité.
 \end{itemize}
 
 \subsubsection{Avantages potentiels d'une solution Cloud}
 
-Opter pour une solution cloud aurait permis de s'affranchir de la complexité liée au développement et à la maintenance d'un serveur de notifications.
-
 \begin{itemize}
-\item {\bf Bénéfices:}
-	\begin{itemize}
-    \item {\bf Concentration sur le métier :} L'équipe aurait pu se concentrer sur les aspects métier de l'application.
-    \item {\bf Temps de développement réduit :} Mise sur le marché potentiellement plus rapide.
-    \item {\bf Coûts potentiellement réduits :} Facturation à l'usage, avantageux en phase de démarrage.
-    \item {\bf Gestion de l'infrastructure déléguée :} Sécurité, scalabilité et haute disponibilité gérées par le fournisseur.
-	\end{itemize}
+\item {\bt Concentration sur le métier :} Se focalise sur les aspects fonctionnels.
+\item {\bt Temps de développement réduit :} Mise sur le marché plus rapide.
+\item {\bt Coûts potentiellement réduits :} Facturation à l'usage, avantageux
+au démarrage.
+\item {\bt Gestion de l'infrastructure déléguée :} Sécurité, scalabilité et
+haute disponibilité gérées par le fournisseur.
 \end{itemize}
 
 \subsubsection{Avantages du développement {\it from scratch}}
 
-Le choix d'une solution {\it from scratch} n'est pas dénué d'avantages, malgré les points soulevés précédemment.
-
 \begin{itemize}
-\item {\bf Bénéfices propres au développement interne:}
-	\begin{itemize}
-    \item {\bf Personnalisation totale :} Adaptation précise aux besoins spécifiques du projet.
-    \item {\bf Maîtrise complète :} Contrôle total de l'architecture et du code source.
-    \item {\bf Flexibilité accrue :} Ajout de fonctionnalités futures et optimisation des performances facilités.
-    \item {\bf Expertise interne :} Acquisition de compétences précieuses dans le domaine des communications en temps réel.
-    \item {\bf Développement de compétences: } Permet de se démarquer en interne, et de proposer des solutions alternatives en cas de besoin.
-    \item {\bf Indépendance technologique :} Pas de verrouillage avec un fournisseur cloud spécifique.
-	\end{itemize}
+\item {\bt Personnalisation totale :} Adaptation précise aux besoins.
+\item {\bt Maîtrise complète :} Contrôle de l'architecture et du code.
+\item {\bt Flexibilité accrue :} Ajout de fonctionnalités et optimisation facilités.
+\item {\bt Expertise interne :} Développement de compétences précieuses et différenciantes.
+\item {\bt Indépendance technologique :} Pas de verrouillage fournisseur.
 \end{itemize}
 
 \subsubsection{Inconvénients du développement {\it from scratch} et dette technique}
 
-Le développement *from scratch* a engendré une {\bf dette technique} non négligeable.
-
 \begin{itemize}
-\item {\bf Points faibles de l'approche "maison":}
-	\begin{itemize}
-    \item {\bf Maintenance et évolution :} Reposent sur l'expertise de l'équipe, risque en cas de départ d'un membre clé.
-    \item {\bf Responsabilité accrue :} Charge de travail importante pour assurer la sécurité, la scalabilité et la haute disponibilité.
-    \item {\bf Coût de développement élevé:} Investissement en temps et en ressources humaines conséquent. Le choix d'une solution cloud existante n'a pas été fait pour des raisons financières, mais en comparant le coût d'un service par rapport au temps investi, le calcul n'est pas forcément en notre faveur.
-	\end{itemize}
+\item {\bt Maintenance et évolution :} Dépendent de l'expertise de l'équipe,
+risque en cas de départ.
+\item {\bt Responsabilité accrue :} Charge de travail pour la sécurité, la
+scalabilité et la haute disponibilité.
+\item {\bt Coût de développement élevé :} Investissement en temps et en
+ressources humaines conséquent. Le calcul du coût par rapport a une solution
+cloud n'est pas certain d'être avantageux.
 \end{itemize}
 
 \subsubsection{Conclusion : Un choix stratégique à pondérer}
 
-Le développement *from scratch* du serveur de notifications a été un projet ambitieux et enrichissant, mais il est important de reconnaître les avantages qu'auraient pu apporter des solutions cloud existantes.
+Le choix dépend des priorités du projet, des ressources et de la stratégie à
+long terme.
 
 \begin{itemize}
-\item {\bf Synthèse des deux approches:}
-	\begin{itemize}
-    \item {\bf Solution Cloud :} Gain de temps, réduction de la dette technique, concentration sur le métier.
-    \item {\bf From scratch :} Maîtrise totale, personnalisation, développement de compétences internes.
-	\end{itemize}
-\end{itemize}
-
-Le choix final dépend des priorités du projet, des ressources disponibles et de la stratégie à long terme de l'entreprise.
-
-\begin{itemize}
-\item {\bf Recommandations pour le futur:}
-	\begin{itemize}
-    \item Si l'objectif principal avait été une mise sur le marché rapide et une réduction des coûts de développement, une solution cloud aurait probablement été plus appropriée.
-    \item Cependant, si la priorité était la personnalisation, la maîtrise du code et le développement de compétences internes, le choix du développement {\it from scratch} se justifie.
-    \item {\bf Une analyse plus approfondie des solutions cloud disponibles sera nécessaire avant de se lancer dans un nouveau développement d'une telle envergure, afin d'évaluer au mieux les avantages et les inconvénients de chaque approche.}
-	\end{itemize}
+\item {\bt Solution Cloud :} Gain de temps, réduction de la dette technique,
+concentration sur le métier.
+\item {\bt  {\it From scratch} :} Maîtrise totale, personnalisation,
+développement de compétences.
 \end{itemize}
