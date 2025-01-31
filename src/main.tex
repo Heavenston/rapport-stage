@@ -22,6 +22,9 @@
 \usetikzlibrary{arrows,shapes,positioning,shadows,trees}
 \usepackage[edges]{forest}
 
+% For the footer
+\usepackage[]{fancyhdr}
+
 % Page geometry
 \geometry{
     a4paper,
@@ -40,36 +43,34 @@
 \titleformat{\chapter}[display]{\normalfont\huge\bfseries}{}{0pt}{\thechapter \quad  \Huge}
 \titlespacing*{\chapter}{0pt}{-70pt}{0pt}
 
+\pagestyle{fancy}
+
+\fancyhead[L]{}
+\fancyhead[C]{\leftmark}
+\fancyhead[R]{}
+\fancyfoot[L]{Malo Legendre-Lemaire}
+\fancyfoot[R]{Allaw}
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-3pt}
+
+\fancypagestyle{plain}{
+	\fancyhead[L]{}
+	\fancyhead[C]{}
+	\fancyhead[R]{}
+	\fancyfoot[L]{Malo Legendre-Lemaire}
+	\fancyfoot[R]{Allaw}
+	\setlength{\headheight}{0pt}
+	\addtolength{\topmargin}{0pt}
+	\renewcommand{\headrulewidth}{0pt}% Line at the header invisible
+}
+
 \begin{document}
 
 % Prevent page numbering (for re enabling after the table of contents)
 \pagenumbering{gobble}
 
 % Title page
-\begin{titlepage}
-\begin{center}
-\includegraphics[width=0.4\textwidth]{media/image1.png}
-
-\vspace{1cm}
-{\huge\bfseries RAPPORT DE STAGE DE TRONC COMMUN\par}
-\vspace{1cm}
-
-\includegraphics[width=0.5\textwidth]{media/allaw.png}
-
-\vspace{1.5cm}
-{\Large\bfseries Allaw\par}
-\vspace{0.5cm}
-{\large Travail avec l'equipe backend, et creation d'un serveur de notification\par}
-
-\vfill  % This will push the following content to the bottom of the page
-
-{\large Présenté par :\\
-\textbf{Legendre-Lemaire Malo}\par}  % Replace "Votre Nom" with your actual name
-
-\vspace{0.5cm}
-{\large Promo 2026\par}  % You can adjust the year if needed
-\end{center}
-\end{titlepage}
+% \subfile{src/title_page.tex}
 
 % Table of contents
 \tableofcontents
