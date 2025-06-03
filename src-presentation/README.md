@@ -27,13 +27,19 @@ Cette présentation se concentre sur les aspects humains de votre stage chez All
 Pour compiler la présentation :
 
 ```bash
+make
+```
+
+Ou manuellement :
+
+```bash
 cd src-presentation
-pdflatex presentation.tex
+pdflatex presentation-simple.tex
 ```
 
 ## Notes pour le présentateur
 
-Chaque slide contient des notes détaillées dans les balises `\note{}`. Ces notes vous guident sur :
+Les notes détaillées se trouvent dans le fichier `notes-presentation.md`. Ce fichier contient :
 - Ce qu'il faut dire pour chaque slide
 - Les transitions entre les slides
 - Les anecdotes et exemples à mentionner
